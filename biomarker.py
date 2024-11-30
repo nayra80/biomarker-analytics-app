@@ -37,7 +37,7 @@ elif page == "Upload File":
     **Instructions:**
     - Upload a CSV file.
     - Ensure the dataset includes columns such as `Sample Type`, `Biomarker_1`, `Biomarker_2`, etc.
-    - If you don’t have a dataset, download a [sample file](https://your-sample-dataset-link.com).
+    - If you don’t have a dataset, download a [sample file](https://github.com/nayra80/biomarker-analytics-app/blob/main/sample_data/biomarker_data.csv).
     """)
 
     uploaded_file = st.file_uploader("Choose a CSV file to upload", type=["csv"])
