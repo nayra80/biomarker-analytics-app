@@ -12,16 +12,23 @@ from sklearn.preprocessing import LabelEncoder
 # App Configuration
 st.set_page_config(page_title="Biomarker Analytics POC", layout="wide")
 
-# Shared Session State
-if "data" not in st.session_state:
-    st.session_state["data"] = None
-
-# Path to Sample Dataset
-SAMPLE_DATA_PATH = "sample_data/sample_biomarker_data.csv"
+# Set Base Directory (starting from where the app script is located)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SAMPLE_DATA_PATH = os.path.join(BASE_DIR, "sample_data/sample_biomarker_data.csv")
 
 # Sidebar Navigation
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Navigate", ["Home", "Upload Data", "Explore Insights", "Predict Trends"])
+page = st.sidebar.radio("Navigate", ["Home", "Upload or Use Sample Data", "Explore Insights", "Predict Trends"])
+
+# Load Sample Data Function
+def load_sample_data():
+    if os.path.exists(SAMPLE_DATA_PATH):
+        data = pd.read_csv(SAMPLE_DATA_PATH)
+        st.success("Sample dataset loaded successfully!")
+        return data
+    else:
+        st.error(f"Sample dataset file not found at: {SAMPLE_DATA_PATH}")
+        return None
 
 # Home Page
 if page == "Home":
@@ -29,68 +36,52 @@ if page == "Home":
     st.markdown("""
     This application demonstrates data analytics and predictive modeling for biomarker datasets.
 
-    **What You Can Do**:
-    1. Upload a biomarker dataset in CSV format.
-    2. Explore trends and insights interactively.
-    3. Use machine learning models to predict trends.
+    **Features**:
+    - Seamless demo experience using preloaded sample data.
+    - Optional file upload for real-world applications.
+    - Interactive visualizations and predictive analytics.
 
     **Get Started**:
-    - [📥 Download Sample Dataset](sandbox:/mnt/data/sample_biomarker_data.csv)
-    - Or, navigate to **Upload Data** to load your own file.
+    - Navigate to **Upload or Use Sample Data** to load a dataset.
+    - Explore features in **Explore Insights** and **Predict Trends**.
     """)
 
-    # Workflow Icons
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.image("https://cdn-icons-png.flaticon.com/512/3524/3524388.png", caption="Step 1: Upload Data", use_container_width=True)
-    with col2:
-        st.image("https://cdn-icons-png.flaticon.com/512/3314/3314565.png", caption="Step 2: Explore Insights", use_container_width=True)
-    with col3:
-        st.image("https://cdn-icons-png.flaticon.com/512/4140/4140037.png", caption="Step 3: Predict Trends", use_container_width=True)
-
-# Upload Data Page
-elif page == "Upload Data":
-    st.header("📂 Upload Your Dataset")
+# Upload or Use Sample Data Page
+elif page == "Upload or Use Sample Data":
+    st.header("📂 Upload Your Dataset or Use Sample Data")
     st.write("""
-    **Instructions**:
+    **Options**:
+    - Use the preloaded sample dataset for a quick demo.
+    - Upload your own CSV file to see the app's flexibility.
+
+    **Dataset Requirements**:
     - File format: CSV
     - Required Columns:
         - `Sample Type` (e.g., Blood, Urine)
         - `Biomarker_1`, `Biomarker_2`, `Biomarker_3` (numeric values)
         - `Date Collected` (YYYY-MM-DD format)
-
-    If you don't have a dataset, you can:
-    - [📥 Download Sample Dataset](sandbox:/mnt/data/sample_biomarker_data.csv)
-    - Or, click below to load a preloaded sample for testing.
     """)
 
-    # Use Sample Data Button
+    # Sample Data Button
     if st.button("Use Sample Data"):
-        if os.path.exists(SAMPLE_DATA_PATH):
-            data = pd.read_csv(SAMPLE_DATA_PATH)
+        st.session_state["data"] = load_sample_data()
+
+    # File Upload Option
+    uploaded_file = st.file_uploader("Or, upload your CSV file", type="csv")
+    if uploaded_file:
+        try:
+            data = pd.read_csv(uploaded_file)
             st.session_state["data"] = data
-            st.success("Sample dataset loaded successfully!")
+            st.success("File uploaded successfully!")
             st.dataframe(data.head())
-        else:
-            st.error(f"Sample dataset file not found. Please ensure the file exists in the 'sample_data/' directory.")
-    else:
-        uploaded_file = st.file_uploader("Upload a CSV file", type="csv")
-        if uploaded_file:
-            try:
-                data = pd.read_csv(uploaded_file)
-                st.session_state["data"] = data
-                st.success("File uploaded successfully!")
-                st.dataframe(data.head())
-            except Exception as e:
-                st.error(f"Error: {e}")
-        else:
-            st.info("No file uploaded yet.")
+        except Exception as e:
+            st.error(f"Error: {e}")
 
 # Explore Insights Page
 elif page == "Explore Insights":
     st.header("📊 Explore Data")
-    if st.session_state["data"] is not None:
-        data = st.session_state["data"]
+    data = st.session_state.get("data")
+    if data is not None:
         numeric_cols = data.select_dtypes(include="number").columns.tolist()
 
         st.write("### Numeric Column Visualization")
@@ -107,13 +98,13 @@ elif page == "Explore Insights":
                 fig = px.scatter(data, x=x_axis, y=y_axis, title=f"Scatter Plot: {x_axis} vs {y_axis}")
                 st.plotly_chart(fig)
     else:
-        st.warning("Please upload a dataset first.")
+        st.warning("Please load a dataset first.")
 
 # Predict Trends Page
 elif page == "Predict Trends":
     st.header("📈 Predictive Analytics")
-    if st.session_state["data"] is not None:
-        data = st.session_state["data"]
+    data = st.session_state.get("data")
+    if data is not None:
         predictors = st.multiselect("Select Predictor Columns", data.columns)
         target = st.selectbox("Select Target Column", data.columns)
 
@@ -155,4 +146,4 @@ elif page == "Predict Trends":
             fig = px.scatter(results, x="Actual", y="Predicted", title="Actual vs Predicted")
             st.plotly_chart(fig)
     else:
-        st.warning("Please upload a dataset first.")
+        st.warning("Please load a dataset first.")
