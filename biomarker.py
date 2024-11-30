@@ -1,95 +1,124 @@
-# File: app.py
+import os
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import LabelEncoder
 
-# App Header
-st.title("Biomarker Data Analytics POC")
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Home", "Upload File", "Explore Data", "Predictive Analytics"])
+# App Configuration
+st.set_page_config(page_title="Biomarker Analytics POC", layout="wide")
 
 # Shared Session State
 if "data" not in st.session_state:
     st.session_state["data"] = None
 
-# Page 1: Home
+# Path to Sample Dataset
+SAMPLE_DATA_PATH = "sample_data/sample_biomarker_data.csv"
+
+# Sidebar Navigation
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Navigate", ["Home", "Upload Data", "Explore Insights", "Predict Trends"])
+
+# Home Page
 if page == "Home":
-    st.write("""
-    ### Welcome to the Biomarker Data Analytics Proof of Concept!
-    This app demonstrates key competencies in data visualization and predictive modeling for clinical sample operations.
+    st.title("Biomarker Data Analytics POC")
+    st.markdown("""
+    This application demonstrates data analytics and predictive modeling for biomarker datasets.
 
-    **How to Use This App:**
-    1. Navigate to "Upload File" to upload your dataset (CSV format).
-    2. Use "Explore Data" to visualize and analyze your data.
-    3. Apply "Predictive Analytics" to uncover machine learning insights.
+    **What You Can Do**:
+    1. Upload a biomarker dataset in CSV format.
+    2. Explore trends and insights interactively.
+    3. Use machine learning models to predict trends.
 
-    **Need Help?** Download a [sample dataset](https://github.com/nayra80/biomarker-analytics-app/blob/main/sample_data/biomarker_data.csv) to get started.
+    **Get Started**:
+    - [📥 Download Sample Dataset](sandbox:/mnt/data/sample_biomarker_data.csv)
+    - Or, navigate to **Upload Data** to load your own file.
     """)
 
-# Page 2: Upload File
-elif page == "Upload File":
-    st.header("Upload Your Dataset")
+    # Workflow Icons
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.image("https://cdn-icons-png.flaticon.com/512/3524/3524388.png", caption="Step 1: Upload Data", use_container_width=True)
+    with col2:
+        st.image("https://cdn-icons-png.flaticon.com/512/3314/3314565.png", caption="Step 2: Explore Insights", use_container_width=True)
+    with col3:
+        st.image("https://cdn-icons-png.flaticon.com/512/4140/4140037.png", caption="Step 3: Predict Trends", use_container_width=True)
+
+# Upload Data Page
+elif page == "Upload Data":
+    st.header("📂 Upload Your Dataset")
     st.write("""
-    **Instructions:**
-    - Upload a CSV file.
-    - Ensure the dataset includes columns such as `Sample Type`, `Biomarker_1`, `Biomarker_2`, etc.
-    - If you don’t have a dataset, download a [sample file](https://github.com/nayra80/biomarker-analytics-app/blob/main/sample_data/biomarker_data.csv).
+    **Instructions**:
+    - File format: CSV
+    - Required Columns:
+        - `Sample Type` (e.g., Blood, Urine)
+        - `Biomarker_1`, `Biomarker_2`, `Biomarker_3` (numeric values)
+        - `Date Collected` (YYYY-MM-DD format)
+
+    If you don't have a dataset, you can:
+    - [📥 Download Sample Dataset](sandbox:/mnt/data/sample_biomarker_data.csv)
+    - Or, click below to load a preloaded sample for testing.
     """)
 
-    uploaded_file = st.file_uploader("Choose a CSV file to upload", type=["csv"])
-    if uploaded_file:
-        try:
-            data = pd.read_csv(uploaded_file)
+    # Use Sample Data Button
+    if st.button("Use Sample Data"):
+        if os.path.exists(SAMPLE_DATA_PATH):
+            data = pd.read_csv(SAMPLE_DATA_PATH)
             st.session_state["data"] = data
-            st.write("### File Preview")
+            st.success("Sample dataset loaded successfully!")
             st.dataframe(data.head())
-            st.success("File uploaded successfully! Navigate to 'Explore Data' to continue.")
-        except Exception as e:
-            st.error(f"Error uploading file: {e}")
+        else:
+            st.error(f"Sample dataset file not found. Please ensure the file exists in the 'sample_data/' directory.")
     else:
-        st.info("Please upload a CSV file to proceed.")
+        uploaded_file = st.file_uploader("Upload a CSV file", type="csv")
+        if uploaded_file:
+            try:
+                data = pd.read_csv(uploaded_file)
+                st.session_state["data"] = data
+                st.success("File uploaded successfully!")
+                st.dataframe(data.head())
+            except Exception as e:
+                st.error(f"Error: {e}")
+        else:
+            st.info("No file uploaded yet.")
 
-# Page 3: Explore Data
-elif page == "Explore Data":
-    st.header("Explore Your Dataset")
+# Explore Insights Page
+elif page == "Explore Insights":
+    st.header("📊 Explore Data")
     if st.session_state["data"] is not None:
         data = st.session_state["data"]
         numeric_cols = data.select_dtypes(include="number").columns.tolist()
-        categorical_cols = data.select_dtypes(include="object").columns.tolist()
 
-        # Numeric Column Distribution
-        st.write("### Numeric Column Distribution")
-        num_col = st.selectbox("Select a numeric column to visualize", numeric_cols)
-        if num_col:
-            fig = px.histogram(data, x=num_col, title=f"Distribution of {num_col}")
+        st.write("### Numeric Column Visualization")
+        selected_col = st.selectbox("Select a column to visualize", numeric_cols)
+        if selected_col:
+            fig = px.histogram(data, x=selected_col, title=f"Distribution of {selected_col}")
             st.plotly_chart(fig)
 
-        # Relationship Visualization
         st.write("### Scatter Plot")
         if len(numeric_cols) >= 2:
-            x_axis = st.selectbox("X-axis", numeric_cols)
-            y_axis = st.selectbox("Y-axis", numeric_cols)
+            x_axis = st.selectbox("Select X-axis", numeric_cols, key="x_axis")
+            y_axis = st.selectbox("Select Y-axis", numeric_cols, key="y_axis")
             if x_axis and y_axis:
-                fig = px.scatter(data, x=x_axis, y=y_axis, title=f"Relationship: {x_axis} vs {y_axis}")
+                fig = px.scatter(data, x=x_axis, y=y_axis, title=f"Scatter Plot: {x_axis} vs {y_axis}")
                 st.plotly_chart(fig)
     else:
-        st.warning("Please upload a file in 'Upload File' first.")
+        st.warning("Please upload a dataset first.")
 
-# Page 4: Predictive Analytics
-elif page == "Predictive Analytics":
-    st.header("Predictive Analytics")
+# Predict Trends Page
+elif page == "Predict Trends":
+    st.header("📈 Predictive Analytics")
     if st.session_state["data"] is not None:
         data = st.session_state["data"]
-        st.write("### Select Features and Target")
         predictors = st.multiselect("Select Predictor Columns", data.columns)
         target = st.selectbox("Select Target Column", data.columns)
 
         if predictors and target:
-            # Preprocess Data
+            # Encode categorical data
             processed_data = data.copy()
             for col in processed_data.select_dtypes(include="object").columns:
                 le = LabelEncoder()
@@ -101,21 +130,29 @@ elif page == "Predictive Analytics":
             # Train-Test Split
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-            # Train Model
-            model = RandomForestRegressor()
+            # Model Selection
+            model_choice = st.radio("Choose a Model", ["Linear Regression", "Decision Tree", "Random Forest"])
+            if model_choice == "Linear Regression":
+                model = LinearRegression()
+            elif model_choice == "Decision Tree":
+                model = DecisionTreeRegressor()
+            else:
+                model = RandomForestRegressor()
+
+            # Train the model
             model.fit(X_train, y_train)
             predictions = model.predict(X_test)
 
-            # Model Performance
+            # Performance Metrics
             mse = mean_squared_error(y_test, predictions)
-            st.write(f"### Model Performance")
+            st.write(f"### Model: {model_choice}")
             st.write(f"Mean Squared Error: {mse}")
 
             # Results Visualization
-            results_df = pd.DataFrame({"Actual": y_test, "Predicted": predictions})
-            st.write("### Actual vs Predicted")
-            st.dataframe(results_df)
-            fig = px.scatter(results_df, x="Actual", y="Predicted", title="Actual vs Predicted")
+            results = pd.DataFrame({"Actual": y_test, "Predicted": predictions})
+            st.write("### Prediction Results")
+            st.dataframe(results.head())
+            fig = px.scatter(results, x="Actual", y="Predicted", title="Actual vs Predicted")
             st.plotly_chart(fig)
     else:
-        st.warning("Please upload a file in 'Upload File' first.")
+        st.warning("Please upload a dataset first.")
