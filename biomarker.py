@@ -27,7 +27,7 @@ if page == "Home":
     2. Use "Explore Data" to visualize and analyze your data.
     3. Apply "Predictive Analytics" to uncover machine learning insights.
 
-    **Need Help?** Download a [sample dataset](https://your-sample-dataset-link.com) to get started.
+    **Need Help?** Download a [sample dataset](https://github.com/nayra80/biomarker-analytics-app/blob/main/sample_data/biomarker_data.csvm) to get started.
     """)
 
 # Page 2: Upload File
