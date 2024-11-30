@@ -1,0 +1,101 @@
+Sample ID,Sample Type,Location,Status,Date Collected
+SAMPLE_1,Tissue,Lab D,In Use,2024-01-01
+SAMPLE_2,Blood,Lab B,In Use,2024-01-02
+SAMPLE_3,Saliva,Lab B,Stored,2024-01-03
+SAMPLE_4,Saliva,Lab A,Available,2024-01-04
+SAMPLE_5,Blood,Lab D,Processed,2024-01-05
+SAMPLE_6,Urine,Lab B,Stored,2024-01-06
+SAMPLE_7,Saliva,Lab C,Processed,2024-01-07
+SAMPLE_8,Blood,Lab C,Stored,2024-01-08
+SAMPLE_9,Saliva,Lab B,Available,2024-01-09
+SAMPLE_10,Urine,Lab D,Processed,2024-01-10
+SAMPLE_11,Blood,Lab B,Processed,2024-01-11
+SAMPLE_12,Blood,Lab D,Stored,2024-01-12
+SAMPLE_13,Saliva,Lab B,Stored,2024-01-13
+SAMPLE_14,Blood,Lab A,Available,2024-01-14
+SAMPLE_15,Urine,Lab B,Available,2024-01-15
+SAMPLE_16,Urine,Lab C,In Use,2024-01-16
+SAMPLE_17,Tissue,Lab C,Available,2024-01-17
+SAMPLE_18,Saliva,Lab D,Processed,2024-01-18
+SAMPLE_19,Tissue,Lab B,Available,2024-01-19
+SAMPLE_20,Blood,Lab A,Available,2024-01-20
+SAMPLE_21,Saliva,Lab D,Stored,2024-01-21
+SAMPLE_22,Saliva,Lab B,In Use,2024-01-22
+SAMPLE_23,Urine,Lab A,Processed,2024-01-23
+SAMPLE_24,Urine,Lab D,Stored,2024-01-24
+SAMPLE_25,Tissue,Lab C,Processed,2024-01-25
+SAMPLE_26,Saliva,Lab B,Available,2024-01-26
+SAMPLE_27,Tissue,Lab A,Processed,2024-01-27
+SAMPLE_28,Urine,Lab B,Processed,2024-01-28
+SAMPLE_29,Tissue,Lab C,Processed,2024-01-29
+SAMPLE_30,Blood,Lab A,Stored,2024-01-30
+SAMPLE_31,Saliva,Lab B,Available,2024-01-31
+SAMPLE_32,Urine,Lab C,In Use,2024-02-01
+SAMPLE_33,Urine,Lab C,Processed,2024-02-02
+SAMPLE_34,Blood,Lab A,Processed,2024-02-03
+SAMPLE_35,Urine,Lab C,Processed,2024-02-04
+SAMPLE_36,Urine,Lab C,Available,2024-02-05
+SAMPLE_37,Saliva,Lab C,Stored,2024-02-06
+SAMPLE_38,Urine,Lab A,Stored,2024-02-07
+SAMPLE_39,Saliva,Lab A,In Use,2024-02-08
+SAMPLE_40,Blood,Lab B,Processed,2024-02-09
+SAMPLE_41,Blood,Lab A,In Use,2024-02-10
+SAMPLE_42,Tissue,Lab C,In Use,2024-02-11
+SAMPLE_43,Tissue,Lab C,Processed,2024-02-12
+SAMPLE_44,Tissue,Lab A,Processed,2024-02-13
+SAMPLE_45,Urine,Lab D,Available,2024-02-14
+SAMPLE_46,Blood,Lab D,Available,2024-02-15
+SAMPLE_47,Saliva,Lab A,Stored,2024-02-16
+SAMPLE_48,Urine,Lab D,In Use,2024-02-17
+SAMPLE_49,Saliva,Lab A,Processed,2024-02-18
+SAMPLE_50,Tissue,Lab C,Processed,2024-02-19
+SAMPLE_51,Tissue,Lab D,In Use,2024-02-20
+SAMPLE_52,Saliva,Lab C,Processed,2024-02-21
+SAMPLE_53,Tissue,Lab B,Available,2024-02-22
+SAMPLE_54,Urine,Lab B,Processed,2024-02-23
+SAMPLE_55,Urine,Lab D,Processed,2024-02-24
+SAMPLE_56,Urine,Lab B,Stored,2024-02-25
+SAMPLE_57,Saliva,Lab A,Stored,2024-02-26
+SAMPLE_58,Blood,Lab C,Processed,2024-02-27
+SAMPLE_59,Blood,Lab A,Stored,2024-02-28
+SAMPLE_60,Urine,Lab C,Stored,2024-02-29
+SAMPLE_61,Tissue,Lab D,Stored,2024-03-01
+SAMPLE_62,Tissue,Lab D,Available,2024-03-02
+SAMPLE_63,Urine,Lab A,Stored,2024-03-03
+SAMPLE_64,Tissue,Lab B,Available,2024-03-04
+SAMPLE_65,Blood,Lab B,Available,2024-03-05
+SAMPLE_66,Blood,Lab B,Stored,2024-03-06
+SAMPLE_67,Urine,Lab D,In Use,2024-03-07
+SAMPLE_68,Saliva,Lab A,Stored,2024-03-08
+SAMPLE_69,Saliva,Lab A,Stored,2024-03-09
+SAMPLE_70,Saliva,Lab B,Available,2024-03-10
+SAMPLE_71,Saliva,Lab A,In Use,2024-03-11
+SAMPLE_72,Urine,Lab A,Stored,2024-03-12
+SAMPLE_73,Urine,Lab D,Stored,2024-03-13
+SAMPLE_74,Saliva,Lab C,Stored,2024-03-14
+SAMPLE_75,Blood,Lab A,In Use,2024-03-15
+SAMPLE_76,Tissue,Lab A,Stored,2024-03-16
+SAMPLE_77,Saliva,Lab A,In Use,2024-03-17
+SAMPLE_78,Blood,Lab B,Available,2024-03-18
+SAMPLE_79,Urine,Lab B,Available,2024-03-19
+SAMPLE_80,Blood,Lab A,Available,2024-03-20
+SAMPLE_81,Tissue,Lab C,Available,2024-03-21
+SAMPLE_82,Urine,Lab A,Stored,2024-03-22
+SAMPLE_83,Urine,Lab B,Processed,2024-03-23
+SAMPLE_84,Blood,Lab C,In Use,2024-03-24
+SAMPLE_85,Saliva,Lab B,In Use,2024-03-25
+SAMPLE_86,Saliva,Lab D,Available,2024-03-26
+SAMPLE_87,Tissue,Lab B,Available,2024-03-27
+SAMPLE_88,Tissue,Lab B,Available,2024-03-28
+SAMPLE_89,Tissue,Lab D,Stored,2024-03-29
+SAMPLE_90,Blood,Lab B,Processed,2024-03-30
+SAMPLE_91,Urine,Lab B,Available,2024-03-31
+SAMPLE_92,Saliva,Lab B,Available,2024-04-01
+SAMPLE_93,Tissue,Lab C,Available,2024-04-02
+SAMPLE_94,Saliva,Lab A,Available,2024-04-03
+SAMPLE_95,Urine,Lab D,Processed,2024-04-04
+SAMPLE_96,Saliva,Lab B,Processed,2024-04-05
+SAMPLE_97,Urine,Lab C,In Use,2024-04-06
+SAMPLE_98,Tissue,Lab A,In Use,2024-04-07
+SAMPLE_99,Blood,Lab C,Processed,2024-04-08
+SAMPLE_100,Urine,Lab A,Stored,2024-04-09
