@@ -66,9 +66,13 @@ elif page == "Explore Insights":
     st.write("### Categorical Column Distribution")
     selected_cat_col = st.selectbox("Select a categorical column to visualize", categorical_cols)
     if selected_cat_col:
-        fig = px.bar(data[selected_cat_col].value_counts().reset_index(),
-                     x="index", y=selected_cat_col,
-                     labels={"index": selected_cat_col, selected_cat_col: "Count"},
+        # Create a value count DataFrame with proper columns
+        cat_data = data[selected_cat_col].value_counts().reset_index()
+        cat_data.columns = [selected_cat_col, "Count"]  # Rename for clarity
+        fig = px.bar(cat_data,
+                     x=selected_cat_col,
+                     y="Count",
+                     labels={selected_cat_col: "Category", "Count": "Count"},
                      title=f"Distribution of {selected_cat_col}")
         st.plotly_chart(fig)
 
